@@ -1,6 +1,8 @@
 use crate::{varuint::VarUint, crypto::Hash};
 use primitive_types::U256;
 use thiserror::Error;
+use log::debug;
+
 
 // This type is used to easily switch between u64 and u128 as example
 // And its easier to see where we use the block difficulty
@@ -22,7 +24,9 @@ pub enum DifficultyError {
 // Verify the validity of a block difficulty against the current network difficulty
 // All operations are done on U256 to avoid overflow
 pub fn check_difficulty(hash: &Hash, difficulty: &Difficulty) -> Result<bool, DifficultyError> {
+    debug!("Checking difficulty {}, hash {}", difficulty_from_hash(&hash), hash);
     let target = compute_difficulty_target(difficulty)?;
+    debug!("Target is {}", target);
     Ok(check_difficulty_against_target(hash, &target))
 }
 
@@ -43,9 +47,22 @@ pub fn check_difficulty_against_target(hash: &Hash, target: &U256) -> bool {
     hash_work <= *target
 }
 
+// Check if the hash is below the target difficulty
+pub fn check_difficulties_against_target(hashes: &[Hash], target: &U256) -> (usize, bool) {
+    for (index, hash) in hashes.iter().enumerate() {
+        if check_difficulty_against_target(hash, target) {
+            return (index as usize, true);
+        }
+    }
+
+    (0, false)
+}
+
 // Convert a hash to a difficulty value
 // This is only used by miner
 #[inline(always)]
 pub fn difficulty_from_hash(hash: &Hash) -> Difficulty {
+    //info!("New hash {}", hash);
     (U256::max_value() / U256::from_big_endian(hash.as_bytes())).into()
 }
+

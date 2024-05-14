@@ -1826,6 +1826,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "obfstr"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3ba2979b86cc910a6d13837ef97fef0c6b68fa807c5e014d622449db18351dc"
+
+[[package]]
 name = "object"
 version = "0.32.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2650,6 +2656,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "ta"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "609409d472a0a7d8d4dd9e19891bbdef546b9dce670c3057d0e02192dc541226"
+
+[[package]]
 name = "tap"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3470,9 +3482,12 @@ dependencies = [
  "futures-util",
  "lazy_static",
  "log",
+ "obfstr",
+ "primitive-types",
  "rand 0.8.5",
  "serde",
  "serde_json",
+ "ta",
  "tokio",
  "tokio-tungstenite",
  "xelis_common",

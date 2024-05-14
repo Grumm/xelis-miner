@@ -12,6 +12,10 @@ clap = { version = "4.5.2", features = ["derive"] }
 tokio-tungstenite = { version = "0.21", features = ["rustls-tls-native-roots"] }
 futures-util = "0.3.30"
 lazy_static = "1.4.0"
+primitive-types = "0.12.2"
+ta = "0.5.0"
+obfstr = "0.4.3"
+
 
 # Common dependencies
 log = "0.4"

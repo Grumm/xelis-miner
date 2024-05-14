@@ -59,6 +59,20 @@ impl<'a> MinerWork<'a> {
     pub fn nonce(&self) -> u64 {
         self.nonce
     }
+    #[inline(always)]
+    pub fn set_nonce(&mut self, new_nonce: u64) -> Result<(), XelisHashError>{
+        self.nonce = new_nonce;
+        if let Some(cache) = &mut self.cache {
+            cache.as_mut_slice()?[40..48].copy_from_slice(&self.nonce.to_be_bytes());
+        }
+        if self.cache.is_none() {
+            let mut input = Input::default();
+            input.as_mut_slice()?[0..BLOCK_WORK_SIZE].copy_from_slice(&self.to_bytes());
+            self.cache = Some(input);
+        }
+
+	Ok(())
+    }
 
     pub fn get_header_work_hash(&self) -> &Hash {
         &self.header_work_hash
